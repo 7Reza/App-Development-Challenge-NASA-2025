@@ -1,0 +1,153 @@
+#this is the final animation idea 
+
+import pandas as pd
+from manim import * 
+import math 
+
+class PlotGraph(ThreeDScene):
+    #File from excel being read 
+    df =pd.read_excel("NLB.xlsx", sheet_name="1")
+    def FA(self, R):  # Add 'self' to the function
+        # Constants
+        P = 10  # dBW Satellite Transmitter Power
+        G = 9  # dBi Satellite Antenna Gain
+        Losses = 19.43  # dB Losses
+        N_r = 0.55  # Ground Station Antenna Efficiency
+        λ = 0.136363636  # m Wavelength
+        k_b = -228.6  # dB Boltzmann constant
+        T_s = 22  # K System Noise Temperature
+        # This is the calculation
+        term1 = P + G - Losses
+        term2 = 10 * math.log10(N_r * ((math.pi * 34) / λ) ** 2)
+        term3 = -20 * math.log10((4000 * math.pi * R) / λ)
+        term4 = -k_b
+        term5 = -10 * math.log10(T_s)
+        
+        exponent = 0.1 * (term1 + term2 + term3 + term4 + term5)
+        
+        # Calculate B_n
+        B_n = (10 ** exponent) / 1000
+
+        return B_n 
+
+    def construct(self):
+        #File from excel being read 
+        df =pd.read_excel("NLB.xlsx", sheet_name="1")
+        # Apply the function to the R(km) column and store results in a new column 'B_n'
+        df['B_n'] = df['R(km)'].apply(self.FA)
+
+        # Save the updated DataFrame back to the Excel file
+        df.to_excel("fy25-adc-high-school-data.xlsx", sheet_name="1", index=False)
+        print("Updated Excel file with B_n column.")
+
+        # Extract data for plotting
+        R_values = df['T'].to_list()
+        B_n_values = df['B_n'].to_list()
+
+        # Corrected Paragraph with spaces between words
+        FJ = MarkupText(
+            "The link budget equation is a mathematical tool used in communication systems to calculate the "
+            "strength of a signal at the receiver after accounting for all gains and losses in the system. "
+            "It determines whether the transmitted signal is powerful enough to overcome losses caused by "
+            "distance, obstacles, and interference, ensuring reliable communication.",
+            font_size=90  # Adjust font size
+        ) 
+        
+        # Adjusting position dynamically and setting a fixed width
+        FJ.width = config.frame_width * 0.9  # 90% of the frame width
+        FJ.to_edge(UL, buff=0.5)  # Ensure it stays within the upper-left corner with padding
+
+        # Animation to display the text
+        self.play(Write(FJ), run_time=8)
+        self.wait(4)
+
+        # Fade out animation
+        self.play(FadeOut(FJ))
+        self.wait(2)
+
+
+        # Create the equation with the \[ ... \] environment (no numbering)
+        eq = Tex(R"""\[
+        B_n=\frac{10^{\frac{1}{10}\left[P_t+G_t-\text { Losses }+10 \log _{10} \eta_R\left(\frac{\pi 34}{\lambda}\right)^2-20 \log _{10} \frac{4000 \pi R}{\lambda}-k_b-10 \log _{10} T_s\right]}}{1000}
+        \]""")
+        scaled_text = eq.scale(.8)
+        eq.center()
+        self.play(Write(eq), run_time=3)
+        self.wait(4)
+        self.remove(eq)
+
+        # Set up axes for the graph
+         # Set up axes for the graph
+        axes = Axes(
+            x_range=[0, max(R_values), max(R_values)//10],  # Adjust range based on R data
+            y_range=[0, max(B_n_values), max(B_n_values)//10],  # Adjust range based on B_n data
+            x_length=10,
+            y_length=6,
+            axis_config={"color": BLUE},
+            x_axis_config={"include_numbers": True, "label_direction": DOWN},
+            y_axis_config={"include_numbers": True, "label_direction": LEFT}
+        ).scale(.8)
+
+        # Label axes
+        x_label = axes.get_x_axis_label("R (km)").scale(.8)
+        y_label = axes.get_y_axis_label("B_n (kbps)").scale(.8)
+
+        # Create line plot
+        graph = axes.plot_line_graph(
+            x_values=R_values,
+            y_values=B_n_values,
+            add_vertex_dots=True,
+            line_color=YELLOW
+        ).scale(.8)
+
+        # Add graph and labels to the scene
+        self.play(Create(axes), Write(x_label), Write(y_label))
+        self.play(Create(graph))
+        self.wait(4)
+
+        # Add the link budget equation in the top-right corner
+        link_budget_eq = MathTex(r"B_n = \frac{C}{\log_2(1 + \text{SNR})}")
+        link_budget_eq.scale(0.7)  # Scale down the equation
+        link_budget_eq.to_corner(UR)  # Position it in the top-right corner
+
+        # Add the equation to the scene
+        self.play(FadeIn(link_budget_eq))
+        self.wait(3)
+
+        # Transition (optional for building fade-out)
+        self.play(FadeOut(link_budget_eq), Uncreate(graph), Uncreate(axes)) 
+
+        self.set_camera_orientation(phi=75 * DEGREES, theta=30 * DEGREES)
+
+        # Create Earth and Moon spheres
+        earth = Sphere(radius=1, resolution=(50, 50))
+        earth.set_fill(opacity=1)
+        earth.set_texture("earth_texture.jpg")  # Replace with Earth texture
+        earth.shift(LEFT * 3)
+
+        moon = Sphere(radius=0.5, resolution=(50, 50))
+        moon.set_fill(opacity=1)
+        moon.set_texture("moon_texture.jpg")  # Replace with Moon texture
+        moon.shift(RIGHT * 3)
+
+        # Add Earth and Moon
+        self.play(FadeIn(earth), FadeIn(moon))
+        self.wait(1)
+
+        # Create Rocket
+        rocket = Cone(base_radius=0.2, height=0.6, direction=UP, resolution=32)
+        rocket.set_fill(RED)
+        rocket.move_to(earth.get_center() + UP * 1.2)
+
+        # Rocket trajectory
+        trajectory = ArcBetweenPoints(
+            start=earth.get_center() + UP * 1.2,
+            end=moon.get_center() + UP * 0.6,
+            angle=PI / 3,
+            color=YELLOW
+        )
+
+        # Animate trajectory and rocket movement
+        self.play(Create(trajectory))
+        self.play(MoveAlongPath(rocket, trajectory), run_time=4)
+        self.wait(2)
