@@ -1,0 +1,72 @@
+from manim import *
+import pandas as pd
+
+# Load data from Excel
+df = pd.read_excel("fy25-adc-high-school-data.xlsx", sheet_name="1")  # Replace with actual file name if needed
+B_n_values = df['B_n'].to_list()
+volacity = df['volacity'].to_list()
+distance = df['distance'].to_list()
+TimeSinceLunch = df['time'].to_list()
+
+# shows the real time value of B_n
+class B(Scene):
+    def construct(self):
+        
+        B = Tex("B: ").to_edge(UL)
+        k = ValueTracker(0)
+        num = always_redraw(lambda: DecimalNumber().set_value(k.get_value())).next_to(B, RIGHT)
+
+        self.play(Write(B), run_time=2)
+        self.play(FadeIn(num))
+        self.wait()
+        
+        for i in range(1,25):
+            k = ValueTracker(B_n_values[i])
+            self.play(k.animate.set_value(B_n_values[i+1]), run_time= .2, rate_func=linear)
+
+#shows the real time of distance travled 
+class Distance(Scene):
+    def construct(self):
+        Dis = Tex("Distance: ").to_edge(UL)
+        d = ValueTracker(0)
+        diss = always_redraw(lambda: DecimalNumber().set_value(d.get_value())).next_to(Dis, RIGHT)
+
+        self.play(Write(Dis, run_time=2))
+        self.play(FadeIn(diss))
+        self.wait()
+
+        for i in range(1,25):
+            d = ValueTracker(distance[i])
+            self.play(d.animate.set_value(distance[i+1]), run_time=.1, rate_func=linear)
+
+
+#shows the real time volacity of to rocket. 
+class Volacity(Scene):
+    def construct(self):
+        Vol = Tex("Volacity: ").to_edge(UL)
+        v = ValueTracker(0)
+        voll = always_redraw(lambda: DecimalNumber().set_value(v.get_value())).next_to(Vol, RIGHT)
+
+        self.play(Write(Vol, run_time=2))
+        self.play(FadeIn(voll))
+        self.wait()
+
+        for i in range(1,25):
+            v = ValueTracker(volacity[i])
+            self.play(v.animate.set_value(volacity[i+1]), run_time=.1, rate_func=linear)
+
+
+#shows the real time in seconds of to rocket. 
+class Timeee(Scene):
+    def construct(self):
+        Tim = Tex("Time: ").to_edge(UL)
+        tt = ValueTracker(0)
+        timmm = always_redraw(lambda: DecimalNumber().set_value(tt.get_value())).next_to(Tim, RIGHT)
+
+        self.play(Write(Tim, run_time=2))
+        self.play(FadeIn(timmm))
+        self.wait()
+
+        for i in range(1,25):
+            tt = ValueTracker(TimeSinceLunch[i])
+            self.play(tt.animate.set_value(TimeSinceLunch[i+1]), run_time=.1, rate_func=linear)
