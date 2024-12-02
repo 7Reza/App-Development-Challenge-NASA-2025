@@ -1,0 +1,53 @@
+from manim import *
+import pandas as pd
+
+# Load data from Excel
+df = pd.read_excel("fy25-adc-high-school-data.xlsx", sheet_name="1")  # Replace with actual file name if needed
+B_n_values = df['B_n'].to_list()
+volacity = df['volacity'].to_list()
+distance = df['distance'].to_list()
+TimeSinceLunch = df['time'].to_list()
+
+class CombinedScene(Scene):
+    def construct(self):
+        # B_n
+        B_label = Tex("B: ").to_edge(UL)
+        B_tracker = ValueTracker(0)
+        B_number = always_redraw(
+            lambda: DecimalNumber().set_value(B_tracker.get_value()).next_to(B_label, RIGHT)
+        )
+
+        # Distance
+        Distance_label = Tex("Distance: ").next_to(B_label, DOWN, aligned_edge=LEFT)
+        Distance_tracker = ValueTracker(0)
+        Distance_number = always_redraw(
+            lambda: DecimalNumber().set_value(Distance_tracker.get_value()).next_to(Distance_label, RIGHT)
+        )
+
+        # Volacity
+        Vol_label = Tex("Volacity: ").next_to(Distance_label, DOWN, aligned_edge=LEFT)
+        Vol_tracker = ValueTracker(0)
+        Vol_number = always_redraw(
+            lambda: DecimalNumber().set_value(Vol_tracker.get_value()).next_to(Vol_label, RIGHT)
+        )
+
+        # Time
+        Time_label = Tex("Time: ").next_to(Vol_label, DOWN, aligned_edge=LEFT)
+        Time_tracker = ValueTracker(0)
+        Time_number = always_redraw(
+            lambda: DecimalNumber().set_value(Time_tracker.get_value()).next_to(Time_label, RIGHT)
+        )
+
+        # Add everything to the scene
+        self.add(B_label, B_number, Distance_label, Distance_number, Vol_label, Vol_number, Time_label, Time_number)
+
+        # Simultaneous animations
+        for i in range(len(B_n_values) - 1):
+            self.play(
+                B_tracker.animate.set_value(B_n_values[i + 1]),
+                Distance_tracker.animate.set_value(distance[i + 1]),
+                Vol_tracker.animate.set_value(volacity[i + 1]),
+                Time_tracker.animate.set_value(TimeSinceLunch[i + 1]),
+                run_time=0.2,
+                rate_func=linear,
+            )
