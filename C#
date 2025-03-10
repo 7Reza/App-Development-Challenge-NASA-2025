@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 
-namespace YourNamespace
+namespace SolarSystem3D
 {
     public partial class MainWindow : Window
     {
@@ -19,15 +19,12 @@ namespace YourNamespace
 
         public MainWindow()
         {
-            InitializeComponent(); // Ensure XAML components are loaded first
-
-            // Ensure UI elements are properly initialized before accessing them
+            InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Assign camera after UI is fully loaded
             _camera = viewport3D.Camera as PerspectiveCamera;
             if (_camera == null)
             {
