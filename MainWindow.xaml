@@ -74,7 +74,88 @@
     </Window>
 
 
+<!-- updated:
 
+<Window x:Class="SolarSystem3D.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+        xmlns:local="clr-namespace:SolarSystem3D"
+        mc:Ignorable="d"
+        Title="Solar System 3D" Height="600" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+        <Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10">
+            <!-- 3D Viewport -->
+            <Viewport3D x:Name="viewport3D" Grid.Column="0">
+                <helix:SunLight/>
+                <PerspectiveCamera Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
+            </Viewport3D>
+                <!-- Sun -->
+                <helix:SphereVisual3D x:Name="Sun" Radius="2">
+                    <helix:SphereVisual3D.Material>
+                        <DiffuseMaterial>
+                            <DiffuseMaterial.Brush>
+                                <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\sun.jpg"/>
+                            </DiffuseMaterial.Brush>
+                        </DiffuseMaterial>
+                    </helix:SphereVisual3D.Material>
+                </helix:SphereVisual3D>
+
+                <!-- Earth -->
+                <helix:SphereVisual3D x:Name="Earth" Radius="0.5" Center="5,0,0">
+                    <helix:SphereVisual3D.Material>
+                        <DiffuseMaterial>
+                            <DiffuseMaterial.Brush>
+                                <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\earth.jpg"/>
+                            </DiffuseMaterial.Brush>
+                        </DiffuseMaterial>
+                    </helix:SphereVisual3D.Material>
+                </helix:SphereVisual3D>
+
+                <!-- Moon -->
+            <helix:SphereVisual3D x:Name="Moon" Radius="0.2" Center="5.7,0,0">
+                <helix:SphereVisual3D.Material>
+                    <DiffuseMaterial>
+                        <DiffuseMaterial.Brush>
+                            <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\moon.jpg"/>
+                        </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
+                </helix:SphereVisual3D.Material>
+            </helix:SphereVisual3D>
+         </Viewport3D>
+
+
+        <!-- Control Panel -->
+        <StackPanel Grid.Column="1" Margin="10" Background="LightGray">
+            <TextBlock Text="Controls" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Orbit Speed:"/>
+            <Slider x:Name="speedSlider" Minimum="0.1" Maximum="5" Value="1" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Distance:"/>
+            <Slider x:Name="cameraDistanceSlider" Minimum="5" Maximum="50" Value="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Angle X:"/>
+            <Slider x:Name="cameraAngleXSlider" Minimum="-180" Maximum="180" Value="0" TickFrequency="10" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Angle Y:"/>
+            <Slider x:Name="cameraAngleYSlider" Minimum="-90" Maximum="90" Value="0" TickFrequency="5" IsSnapToTickEnabled="True"/>
+
+            <CheckBox x:Name="showOrbits" Content="Show Orbits" IsChecked="True" Margin="5"/>
+            <Button x:Name="resetButton" Content="Reset" Margin="5" Background="Red" Foreground="White"/>
+        </StackPanel>
+           
+    </Grid>
+    </Window>
+
+-->
 
 
 
