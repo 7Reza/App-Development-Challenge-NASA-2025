@@ -74,8 +74,6 @@
     </Window>
 
 
-<!-- updated:
-
 <Window x:Class="SolarSystem3D.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -93,11 +91,13 @@
 
         <!-- 3D Viewport -->
         <Viewport3D x:Name="viewport3D" Grid.Column="0" ClipToBounds="True">
+            <!-- Camera -->
+            <Viewport3D.Camera>
+                <PerspectiveCamera x:Name="camera" Position="0,0,20" LookDirection="0,0,-1" FieldOfView="60" />
+            </Viewport3D.Camera>
+
             <!-- Lighting -->
             <helix:SunLight/>
-
-            <!-- Camera -->
-            <PerspectiveCamera x:Name="camera" Position="0,0,20" LookDirection="0,0,-1" FieldOfView="60" />
 
             <!-- Sun -->
             <helix:SphereVisual3D x:Name="Sun" Radius="2" Center="0,0,0">
