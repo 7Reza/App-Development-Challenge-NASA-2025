@@ -82,7 +82,6 @@
         xmlns:helix="http://helix-toolkit.org/wpf"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
         xmlns:local="clr-namespace:SolarSystem3D"
         mc:Ignorable="d"
         Title="Solar System 3D" Height="600" Width="800">
@@ -91,46 +90,51 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
-        <Viewport3D ClipToBounds="True" Width="150" Height="150" Canvas.Left="0" Canvas.Top="10">
-            <!-- 3D Viewport -->
-            <Viewport3D x:Name="viewport3D" Grid.Column="0">
-                <helix:SunLight/>
-                <PerspectiveCamera Position="0,0,2" LookDirection="0,0,-1" FieldOfView="60" />
-            </Viewport3D>
-                <!-- Sun -->
-                <helix:SphereVisual3D x:Name="Sun" Radius="2">
-                    <helix:SphereVisual3D.Material>
-                        <DiffuseMaterial>
-                            <DiffuseMaterial.Brush>
-                                <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\sun.jpg"/>
-                            </DiffuseMaterial.Brush>
-                        </DiffuseMaterial>
-                    </helix:SphereVisual3D.Material>
-                </helix:SphereVisual3D>
 
-                <!-- Earth -->
-                <helix:SphereVisual3D x:Name="Earth" Radius="0.5" Center="5,0,0">
-                    <helix:SphereVisual3D.Material>
-                        <DiffuseMaterial>
-                            <DiffuseMaterial.Brush>
-                                <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\earth.jpg"/>
-                            </DiffuseMaterial.Brush>
-                        </DiffuseMaterial>
-                    </helix:SphereVisual3D.Material>
-                </helix:SphereVisual3D>
+        <!-- 3D Viewport -->
+        <Viewport3D x:Name="viewport3D" Grid.Column="0" ClipToBounds="True">
+            <!-- Lighting -->
+            <helix:SunLight/>
 
-                <!-- Moon -->
-            <helix:SphereVisual3D x:Name="Moon" Radius="0.2" Center="5.7,0,0">
+            <!-- Camera -->
+            <PerspectiveCamera x:Name="camera" Position="0,0,20" LookDirection="0,0,-1" FieldOfView="60" />
+
+            <!-- Sun -->
+            <helix:SphereVisual3D x:Name="Sun" Radius="2" Center="0,0,0">
                 <helix:SphereVisual3D.Material>
                     <DiffuseMaterial>
                         <DiffuseMaterial.Brush>
-                            <ImageBrush ImageSource="C:\Users\Brinton\OneDrive\Desktop\TestApp1\Resources\moon.jpg"/>
+                            <ImageBrush ImageSource="/Resources/sun.jpg"/>
                         </DiffuseMaterial.Brush>
                     </DiffuseMaterial>
                 </helix:SphereVisual3D.Material>
             </helix:SphereVisual3D>
-         </Viewport3D>
 
+            <!-- Earth -->
+            <helix:SphereVisual3D x:Name="Earth" Radius="0.5" Center="10,0,0">
+                <helix:SphereVisual3D.Material>
+                    <DiffuseMaterial>
+                        <DiffuseMaterial.Brush>
+                            <ImageBrush ImageSource="/Resources/earth.jpg"/>
+                        </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
+                </helix:SphereVisual3D.Material>
+            </helix:SphereVisual3D>
+
+            <!-- Moon -->
+            <helix:SphereVisual3D x:Name="Moon" Radius="0.2" Center="11,0,0">
+                <helix:SphereVisual3D.Material>
+                    <DiffuseMaterial>
+                        <DiffuseMaterial.Brush>
+                            <ImageBrush ImageSource="/Resources/moon.jpg"/>
+                        </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
+                </helix:SphereVisual3D.Material>
+            </helix:SphereVisual3D>
+
+            <!-- Earth Orbit -->
+            <helix:LinesVisual3D x:Name="earthOrbit" Points="{Binding EarthOrbitPoints}" Color="LightBlue" Thickness="0.1"/>
+        </Viewport3D>
 
         <!-- Control Panel -->
         <StackPanel Grid.Column="1" Margin="10" Background="LightGray">
@@ -151,14 +155,5 @@
             <CheckBox x:Name="showOrbits" Content="Show Orbits" IsChecked="True" Margin="5"/>
             <Button x:Name="resetButton" Content="Reset" Margin="5" Background="Red" Foreground="White"/>
         </StackPanel>
-           
     </Grid>
-    </Window>
-
--->
-
-
-
-
-
-
+</Window>
