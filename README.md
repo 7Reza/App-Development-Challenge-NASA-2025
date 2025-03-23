@@ -1,9 +1,4 @@
 <img src="Images/sphere_position.png" alt="Alt Text" title="Optional Title" width="300" height="200">
-<video width="300" height="200" controls>
-  <source src="Images/sphere_position.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
 
 # NASA Rocket Position Data Visualization with .NET WPF XAML and Python
 
