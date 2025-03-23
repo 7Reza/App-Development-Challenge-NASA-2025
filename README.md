@@ -1,4 +1,4 @@
-<img src="Images/sphere_position.png" alt="Alt Text" title="Optional Title" width="300" height="200">
+<img src="Images/sphere_position.png" alt="Alt Text" title="Optional Title" width="500" height="300">
 
 # NASA Rocket Position Data Visualization with .NET WPF XAML and Python
 
