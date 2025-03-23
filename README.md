@@ -1,4 +1,4 @@
-![Example](Images/sphere position.png)
+![Example](/Images/sphere position.png)
 # NASA Rocket Position Data Visualization with .NET WPF XAML and Python
 
 Overview This project is built using .NET WPF and XAML to visualize data provided by NASA. It is developed as part of the App Development Challenge (ADC), a coding competition that engages middle and high school students in solving real-world technical problems related to deep space exploration.
