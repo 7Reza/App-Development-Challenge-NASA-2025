@@ -1,0 +1,43 @@
+<Window x:Class="SpherePositionTracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        Title="Sphere Position Tracker" Height="1200" Width="1700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnBrowse" Content="Browse Excel File" Click="btnBrowse_Click" Margin="0,0,10,0" Padding="5"/>
+            <Button x:Name="btnUpdate" Content="Update Position" Click="btnUpdate_Click" Margin="0,0,10,0" Padding="5" IsEnabled="False"/>
+            <TextBlock x:Name="txtFilePath" Text="No file selected" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Time: " FontWeight="Bold"/>
+            <TextBlock x:Name="txtTime" Margin="0,0,20,0"/>
+            <TextBlock Text="Rocket Position: " FontWeight="Bold"/>
+            <TextBlock Text="X:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketX" Margin="0,0,10,0"/>
+            <TextBlock Text="Y:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketY" Margin="0,0,10,0"/>
+            <TextBlock Text="Z:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketZ" Margin="0,0,20,0"/>
+            <TextBlock Text="Moon Position: " FontWeight="Bold"/>
+            <TextBlock Text="X:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonX" Margin="0,0,10,0"/>
+            <TextBlock Text="Y:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonY" Margin="0,0,10,0"/>
+            <TextBlock Text="Z:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonZ"/>
+        </StackPanel>
+
+        <helix:HelixViewport3D Grid.Row="2" x:Name="viewPort" ZoomExtentsWhenLoaded="True">
+            <helix:SunLight/>
+            <ModelVisual3D x:Name="sphereContainer"/>
+        </helix:HelixViewport3D>
+    </Grid>
+</Window>
