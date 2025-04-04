@@ -1,0 +1,127 @@
+<Window x:Class="SpherePositionTracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        Title="Sphere Position Tracker" Height="1200" Width="1700">
+
+    <!-- Resources moved to the top level -->
+    <Window.Resources>
+        <DiffuseMaterial x:Key="BackMaterial">
+            <DiffuseMaterial.Brush>
+                <ImageBrush ImageSource="C:\Users\Mohammad Reza\Projects\NASA\C#\data\space.jpg"/>
+            </DiffuseMaterial.Brush>
+        </DiffuseMaterial>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Existing top row content remains the same -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnBrowse" Content="Browse Excel File" Click="btnBrowse_Click" Margin="0,0,10,0" Padding="5"/>
+            <Button x:Name="btnUpdate" Content="Update Position" Click="btnUpdate_Click" Margin="0,0,10,0" Padding="5" IsEnabled="False"/>
+            <TextBlock x:Name="txtFilePath" Text="No file selected" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Existing position display row remains the same -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Time: " FontWeight="Bold"/>
+            <TextBlock x:Name="txtTime" Margin="0,0,20,0"/>
+            <TextBlock Text="Rocket Position: " FontWeight="Bold"/>
+            <TextBlock Text="X:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketX" Margin="0,0,10,0"/>
+            <TextBlock Text="Y:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketY" Margin="0,0,10,0"/>
+            <TextBlock Text="Z:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtRocketZ" Margin="0,0,20,0"/>
+            <TextBlock Text="Moon Position: " FontWeight="Bold"/>
+            <TextBlock Text="X:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonX" Margin="0,0,10,0"/>
+            <TextBlock Text="Y:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonY" Margin="0,0,10,0"/>
+            <TextBlock Text="Z:" Margin="0,0,5,0"/>
+            <TextBlock x:Name="txtMoonZ"/>
+        </StackPanel>
+
+        <!-- 3D Viewport -->
+        <helix:HelixViewport3D Grid.Row="2" Grid.Column="0" x:Name="viewPort" ZoomExtentsWhenLoaded="True">
+            <helix:SunLight/>
+            <ModelVisual3D x:Name="sphereContainer"/>
+
+            <!-- Large Sphere for Background (visible from inside) -->
+            <helix:SphereVisual3D x:Name="backgroundSphere"
+                     Center="0,0,0" 
+                     Radius="10000" 
+                     ThetaDiv="64" 
+                     PhiDiv="32"
+                     BackMaterial="{StaticResource BackMaterial}">
+                <helix:SphereVisual3D.Material>
+                    <DiffuseMaterial>
+                        <DiffuseMaterial.Brush>
+                            <ImageBrush ImageSource="path to space.jpg"/>
+                        </DiffuseMaterial.Brush>
+                    </DiffuseMaterial>
+                </helix:SphereVisual3D.Material>
+            </helix:SphereVisual3D>
+        </helix:HelixViewport3D>
+
+        <!-- Control Panel with additional camera following controls -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="10" Background="LightGray">
+            <TextBlock Text="Controls" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+            <!-- Camera Following Controls -->
+            <TextBlock Text="Camera Following" FontWeight="Bold" Margin="0,10,0,5"/>
+            <CheckBox x:Name="chkFollowRocket" Content="Follow Rocket" IsChecked="True" Margin="5"/>
+
+            <TextBlock Text="Vertical Offset:"/>
+            <Slider x:Name="cameraVerticalOffsetSlider" 
+                    Minimum="0" 
+                    Maximum="50" 
+                    Value="10" 
+                    TickFrequency="1" 
+                    IsSnapToTickEnabled="True"
+                    ToolTip="Vertical distance above the rocket"/>
+
+            <TextBlock Text="Depth Offset:"/>
+            <Slider x:Name="cameraDepthOffsetSlider" 
+                    Minimum="0" 
+                    Maximum="50" 
+                    Value="20" 
+                    TickFrequency="1" 
+                    IsSnapToTickEnabled="True"
+                    ToolTip="Distance behind the rocket"/>
+
+            <!-- Existing controls -->
+            <TextBlock Text="Orbit Speed:" Margin="0,10,0,0"/>
+            <Slider x:Name="speedSlider" Minimum="0.1" Maximum="5" Value="1" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Distance:"/>
+            <Slider x:Name="cameraDistanceSlider" Minimum="5" Maximum="50" Value="20" TickFrequency="1" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Angle X:"/>
+            <Slider x:Name="cameraAngleXSlider" Minimum="-180" Maximum="180" Value="0" TickFrequency="10" IsSnapToTickEnabled="True"/>
+
+            <TextBlock Text="Camera Angle Y:"/>
+            <Slider x:Name="cameraAngleYSlider" Minimum="-90" Maximum="90" Value="0" TickFrequency="5" IsSnapToTickEnabled="True"/>
+
+            <CheckBox x:Name="showOrbits" Content="Show Orbits" IsChecked="True" Margin="5"/>
+            <Button x:Name="resetButton" Content="Reset" Margin="5" Background="Red" Foreground="White"/>
+        </StackPanel>
+
+        <!-- Optional: Camera Following Status -->
+        <TextBlock Grid.Row="3" Grid.Column="0" 
+                   x:Name="txtCameraStatus" 
+                   Text="Camera Following: Enabled" 
+                   Margin="10" 
+                   FontWeight="Bold"/>
+    </Grid>
+</Window>
